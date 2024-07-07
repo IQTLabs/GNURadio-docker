@@ -1,11 +1,11 @@
 name: docker-test
 on: [push, pull_request]
 jobs:
-  test-gamutrf-images:
+  test-images:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - name: docker build
       run: |
         docker build -f Dockerfile.dependencies . -t iqtlabs/gnuradio-dependencies:latest
-        docker build -f Dockerfile --build-arg GNURADIO_TAG v3.10.10.0 -t iqtlabs/gnuradio:latest
+        docker build --build-arg GNURADIO_TAG=v3.10.10.0 -t iqtlabs/gnuradio:3.10.10.0 -f Dockerfile .
