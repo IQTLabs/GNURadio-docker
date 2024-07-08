@@ -3,6 +3,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
     apt-get -y --no-install-recommends install \
     build-essential \
     cmake \
+    cppzmq-dev \
     g++ \
     gcc \
     git \
@@ -25,8 +26,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
     libvulkan-dev \
     libzmq3-dev \
     make \
-    netcat \
+    netcat-traditional \
     pkg-config \
+    pybind11-dev \
     python3-bladerf \
     python3-mako \
     python3-numpy \
@@ -36,18 +38,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
     python3-uhd \
     python3-zmq \
     sudo \
-    swig \
     uhd-host \
     unzip \
     wget
-RUN /usr/lib/uhd/utils/uhd_images_downloader.py -t "b2|usb"
+RUN /usr/bin/uhd_images_downloader -t "b2|usb"
 WORKDIR /root
 # https://wiki.gnuradio.org/index.php/GNU_Radio_3.9_OOT_Module_Porting_Guide
-RUN git clone --depth 1 https://github.com/pybind/pybind11 -b v2.11.1
 RUN git clone --depth 1 https://github.com/gnuradio/volk -b v3.1.2
 RUN git clone --depth 1 https://github.com/pothosware/SoapySDR -b soapy-sdr-0.8.1
-WORKDIR /root/pybind11/build
-RUN cmake -DPYBIND11_TEST="" .. && make -j "$(nproc)" && make install
 WORKDIR /root/volk/build
 RUN git submodule update --init
 RUN cmake .. && make -j "$(nproc)" && make install
