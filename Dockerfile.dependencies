@@ -31,7 +31,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
     pybind11-dev \
     python3-bladerf \
     python3-mako \
-    python3-numpy \
     python3-packaging \
     python3-pip \
     python3-pygccxml \
@@ -41,6 +40,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
     uhd-host \
     unzip \
     wget
+RUN dpkg -r --force-depends python3-numpy && pip install --break-system-packages "numpy>=2.0.1"
 RUN /usr/bin/uhd_images_downloader -t "b2|usb"
 WORKDIR /root
 # https://wiki.gnuradio.org/index.php/GNU_Radio_3.9_OOT_Module_Porting_Guide
